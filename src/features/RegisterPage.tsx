@@ -5,9 +5,13 @@ import { REMEMBER_ME, SIGN_IN, SIGN_UP } from "../util/app.constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema, type RegisterForm } from "../util/app.schema";
+import { useRegister } from "../hooks/authhook";
+import AppSpinner from "../components/AppSpinner";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const { mutate, isPending } = useRegister();
 
   const handleSignInClick = () => {
     navigate("/login");
@@ -22,7 +26,16 @@ const RegisterPage = () => {
   });
 
   const onSubmit = (data: RegisterForm) => {
-    console.log("Form submitted:", data);
+    mutate(data, {
+      onSuccess: (res) => {
+        if (res?.status === "SUCCESS") {
+          navigate("/dashboard");
+          toast(res?.message || res?.data?.[0]?.message);
+        } else {
+          toast(res?.message || res?.data?.[0]?.message);
+        }
+      },
+    });
   };
 
   return (
@@ -71,6 +84,7 @@ const RegisterPage = () => {
         </button>
       </div>
       <Button type="submit">{SIGN_UP}</Button>
+      {isPending && <AppSpinner />}
     </form>
   );
 };

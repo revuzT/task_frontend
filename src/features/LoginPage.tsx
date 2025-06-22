@@ -5,9 +5,15 @@ import { REMEMBER_ME, SIGN_IN, SIGN_UP } from "../util/app.constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginForm } from "../util/app.schema";
+import { useLogin } from "../hooks/authhook";
+import AppSpinner from "../components/AppSpinner";
+import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { mutate, isPending } = useLogin();
+  const { setIsAuthenticated } = useAuth();
 
   const handleSignUpClick = () => {
     navigate("/register");
@@ -23,6 +29,21 @@ const LoginPage = () => {
 
   const onSubmit = (data: LoginForm) => {
     console.log("Form submitted:", data);
+    mutate(data, {
+      onSuccess: (res) => {
+        console.log(res);
+        if (res?.status === "SUCCESS") {
+          toast(res?.message);
+          sessionStorage.setItem("encryptedEmail", res?.data?.email);
+          setIsAuthenticated(true);
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1000);
+        } else {
+          toast(res?.message || res?.data?.[0]?.message);
+        }
+      },
+    });
   };
 
   return (
@@ -42,6 +63,7 @@ const LoginPage = () => {
         id="password"
         label="Password"
         type="password"
+        placeholder="Password"
         error={errors?.password?.message}
         {...register("password")}
       />
@@ -62,6 +84,7 @@ const LoginPage = () => {
         </button>
       </div>
       <Button type="submit">{SIGN_IN}</Button>
+      {isPending && <AppSpinner />}
     </form>
   );
 };

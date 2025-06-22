@@ -3,8 +3,8 @@
 
 import axios from "axios";
 import toast from "react-hot-toast";
-axios.defaults.baseURL = "http://localhost:5000";
-// axios.defaults.baseURL = "https://taskbackend-production-44c7.up.railway.app/";
+// axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "https://taskbackend-production-44c7.up.railway.app";
 
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use((config) => {

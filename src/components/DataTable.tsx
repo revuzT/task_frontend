@@ -67,9 +67,9 @@ const DataTable = <T extends object>({
   });
 
   return (
-    <div className="relative overflow-x-auto w-full shadow-md sm:rounded-lg font-jura h-full">
+    <div className="relative w-full shadow-md sm:rounded-lg font-jura h-full overflow-visible">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-white uppercase bg-third">
+        <thead className="uppercase bg-white">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -84,7 +84,7 @@ const DataTable = <T extends object>({
                     }`}
                     onClick={() => showSort && handleSort(colId)}
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 text-primary">
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
@@ -97,13 +97,14 @@ const DataTable = <T extends object>({
             </tr>
           ))}
         </thead>
+
         <tbody
-          className={`text-third font-bold transition-all duration-500 ease-in-out ${
+          className={`text-black font-bold transition-all duration-500 ease-in-out ${
             animate ? "animate-fadeSlide" : ""
           }`}
         >
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-b border-third">
+            <tr key={row.id} className="border-b border-third w-full">
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="px-6 py-4">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

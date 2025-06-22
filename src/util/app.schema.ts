@@ -25,3 +25,11 @@ export const loginSchema = z.object({
 });
 
 export type LoginForm = z.infer<typeof loginSchema>;
+
+export const taskSchema = z.object({
+  taskName: z.string().min(1, "Task name is required"),
+  description: z.string().min(1, "Description is required"),
+  dueDate: z.string().min(1, "Due date is required"),
+});
+
+export type TaskSchema = z.infer<typeof taskSchema>;

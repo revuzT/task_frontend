@@ -6,6 +6,8 @@ import { PAGE_SIZE, TASK_MANAGEMENT } from "../util/app.constants";
 import { Plus } from "lucide-react";
 import DataTable from "../components/DataTable";
 import { taskColumns } from "./TaskColumns";
+import Dialog from "../components/Dialog";
+import AddForm from "./AddForm";
 
 type FilterData = {
   searchCol: string;
@@ -15,7 +17,8 @@ type FilterData = {
 };
 
 const Dashboard = () => {
-  const [taskData, setTaskData] = useState<any[]>([]); // ✅ initialized as an array
+  const [taskData, setTaskData] = useState<any[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const { mutate, isPending } = useGetAllTasks();
 
   const [filterData, setFilterData] = useState<FilterData>({
@@ -25,7 +28,6 @@ const Dashboard = () => {
     pageSize: PAGE_SIZE,
   });
 
-  // ✅ Safely sort only when data exists
   const sortedData = useMemo(() => {
     if (!Array.isArray(taskData)) return [];
 
@@ -73,8 +75,13 @@ const Dashboard = () => {
         </h2>
       </div>
 
-      <div className="w-full flex justify-end px-4">
-        <button className="flex border-2 border-white bg-primary rounded-full text-white p-4 items-center px-7">
+      <div className="w-full flex justify-end px-4 pb-7">
+        <button
+          className="flex border-2 border-white cursor-pointer bg-primary rounded-full text-white p-4 items-center px-7"
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
           Add <Plus className="ml-2 w-4 h-4" />
         </button>
       </div>
@@ -88,6 +95,9 @@ const Dashboard = () => {
           totalItems={taskData.length}
         />
       </div>
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+        <AddForm setIsOpen={setIsOpen} />
+      </Dialog>
 
       {isPending && <AppSpinner />}
     </div>

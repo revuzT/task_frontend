@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ColumnDef } from "@tanstack/react-table";
+import TaskActionsDropdown from "./TaskActionsDropdown";
 
 export const taskColumns: ColumnDef<any>[] = [
   {
@@ -22,5 +23,10 @@ export const taskColumns: ColumnDef<any>[] = [
     accessorKey: "createdAt",
     header: "Created At",
     cell: (info) => new Date(info.getValue() as string).toLocaleString(),
+  },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: () => <TaskActionsDropdown />,
   },
 ];

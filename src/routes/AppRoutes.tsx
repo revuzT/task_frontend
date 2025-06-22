@@ -4,15 +4,14 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Login from "./Login";
+import AuthPage from "../features/AuthPage";
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} /> */}
+        <Route path="/login" element={<AuthPage />} />
+        <Route path="/register" element={<AuthPage />} />
       </Routes>
     </Router>
   );

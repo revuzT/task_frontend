@@ -11,6 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   disabled?: boolean;
   label?: string;
+  error?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,6 +24,7 @@ const Input: React.FC<InputProps> = ({
   className = "",
   disabled = false,
   label,
+  error,
   ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +38,7 @@ const Input: React.FC<InputProps> = ({
   const hasToggle = type === "password";
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative px-2 py-1">
       {label && (
         <label htmlFor={id} className="text-white ml-0.5 font-semibold text-sm">
           {label}
@@ -75,16 +77,19 @@ const Input: React.FC<InputProps> = ({
 
       {hasToggle && (
         <div
-          className="absolute inset-y-0 right-0 pr-3 pt-4 flex items-center justify-center cursor-pointer"
+          className="absolute inset-y-0 right-0 pr-6 pt-5.5 flex items-center justify-center cursor-pointer"
           onClick={togglePasswordVisibility}
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? (
-            <EyeOff className="h-5 w-5 text-gray-500" />
+            <EyeOff className="h-5 w-5 text-white" />
           ) : (
-            <Eye className="h-5 w-5 text-gray-500" />
+            <Eye className="h-5 w-5 text-white" />
           )}
         </div>
+      )}
+      {error && (
+        <p className="text-red-500 text-xs font-medium mt-1 px-0.5">{error}</p>
       )}
     </div>
   );

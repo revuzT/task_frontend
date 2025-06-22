@@ -15,3 +15,4 @@ export const DATE_TIME = "Date & Time";
 export const TASK = "Task";
 export const DESC = "Description";
 export const ACTION = "Action";
+export const PAGE_SIZE = 5;
